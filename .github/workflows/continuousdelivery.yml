@@ -1,0 +1,31 @@
+name: Continuous Delivery
+on:
+  pull_request:
+    branches:
+      - main # ou qualquer outra branch
+
+jobs:
+  delivery:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+      - uses: actions/checkout@v6
+
+      - name: Simulando Continuous Delivery
+      - uses: actions/upload-artifact@v7
+        with:
+          name: projeto.zip
+          path: |
+            '**.py'
+            README.md
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: delivery
+    steps:
+      - users: actions/upload-artifact@v7
+        with:
+          name: projetozipado.zip
+      - name: Display structure of downloaded files
+        run: ls -R
+        run: ls -R
