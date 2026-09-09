@@ -23,9 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: delivery
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
         with:
-          name: projetozipado.zip
+          name: projeto.zip
       - name: Display structure of downloaded files
         run: ls -R
 
@@ -52,4 +53,4 @@ jobs:
         with:
           context: .
           push: false
-          tags: user/app:latest
+          tags: localhost/app:latest
