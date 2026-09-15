@@ -1,22 +1,43 @@
-name: Discord Notification
+name: Continuous Integration
 
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize, closed]
     branches:
       - main
-  pull_request:
+  push:
     branches:
       - main
 
 jobs:
+  # ... seus outros jobs (build, docker, etc.) ...
+
   discord:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Send Discord Notification
+      # 1. Notificação quando um Pull Request é ABERTO ou ATUALIZADO
+      - name: Notify PR Opened/Updated
+        if: github.event_name == 'pull_request' && github.event.action != 'closed'
         uses: appleboy/discord-action@master
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          message: "Novo evento/commit registrado no repositório!"
+          message: "🔀 **Pull Request!** O PR #${{ github.event.pull_request.number }} ('${{ github.event.pull_request.title }}') foi aberto/atualizado por **${{ github.actor }}**."
+
+      # 2. Notificação quando um Pull Request é ACEITO / MERGEADO
+      - name: Notify PR Merged
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+        uses: appleboy/discord-action@master
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          message: "🔀✅ **Pull Request Merged!** O PR #${{ github.event.pull_request.number }} ('${{ github.event.pull_request.title }}') foi mesclado na `main` por **${{ github.actor }}**!"
+
+      # 3. Notificação quando é feito um PUSH DIRETO na branch main
+      - name: Notify Direct Push
+        if: github.event_name == 'push'
+        uses: appleboy/discord-action@master
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          message: "📌 **Novo Commit / Push!** Um novo commit foi enviado diretamente para a `main` por **${{ github.actor }}**."
