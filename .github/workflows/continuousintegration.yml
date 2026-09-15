@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+permissions:
+  security-events: write
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -48,9 +52,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Run Discord Webhook
-        uses: Sniddl/discord-commits@v1.8
+      - name: Send Discord Notification
+        uses: Ilshat/discord-webhook-action@v1.2.0
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          template: "avatar-with-link"
-          include-extras: true
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          content: "Novo commit/push realizado com sucesso no repositório!"
