@@ -1,22 +1,23 @@
-name: Discord
+name: Discord Notification
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
 jobs:
   discord:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Run Discord Webhook
-        uses: Sniddl/discord-commits@v1.8
+      - name: Send Discord Notification
+        uses: Ilshat/discord-webhook-action@v1.2.0
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          template: "avatar-with-link"
-          include-extras: true
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          content: "🚀 **Novo push realizado com sucesso no repositório!**"
