@@ -42,10 +42,9 @@ jobs:
   discord:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - name: Send Discord Notification
-        uses: Ilshadur/discord-action@v1.2.0
-        with:
-          args: 'Novo commit enviado por ${{ github.actor }} no repositório ${{ github.repository }}!'
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "{\"content\": \"Novo commit enviado por **${{ github.actor }}** no repositório **${{ github.repository }}**!\"}" \
+               ${{ secrets.DISCORD_WEBHOOK }}
