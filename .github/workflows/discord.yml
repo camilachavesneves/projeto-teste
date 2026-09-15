@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Send Discord Notification
-        uses: Ilshat/discord-webhook-action@v1.2.0
+        uses: appleboy/discord-action@master
         with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          content: "🚀 **Novo push realizado com sucesso no repositório!**"
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          message: "🚀 Novo evento/commit registrado no repositório!"
