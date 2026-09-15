@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   discord:
@@ -23,4 +20,3 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           template: "avatar-with-link"
           include-extras: true
-          empty-commits: true
