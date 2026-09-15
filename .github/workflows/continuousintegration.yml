@@ -1,6 +1,10 @@
 name: Continuous Integration
+
 on:
   pull_request:
+    branches:
+      - main
+  push:
     branches:
       - main
 
@@ -39,9 +43,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run Discord Webhook
-        uses: johnnyhuy/actions-discord-git-webhook@main
+      - name: Send Discord Notification
+        uses: Ilshadur/discord-action@v1.2.0
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          template: "avatar-with-link"
-          include-extras: true
+          args: 'Novo commit enviado por ${{ github.actor }} no repositório ${{ github.repository }}!'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
