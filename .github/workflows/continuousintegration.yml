@@ -38,13 +38,3 @@ jobs:
           context: .
           push: false
           tags: localhost/app:latest
-
-  discord:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Send Discord Notification
-        run: |
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d "{\"content\": \"Novo commit enviado por **${{ github.actor }}** no repositório **${{ github.repository }}**!\"}" \
-               ${{ secrets.DISCORD_WEBHOOK }}
