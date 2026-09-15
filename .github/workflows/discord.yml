@@ -18,5 +18,5 @@ jobs:
       - name: Send Discord Notification
         uses: appleboy/discord-action@master
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           message: "🚀 Novo evento/commit registrado no repositório!"
