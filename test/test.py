@@ -2,6 +2,7 @@ from src.main import *
 from unittest.mock import patch
 
 
+@pytest.mark.asyncio
 def test_root():
     assert root() == {"message": "Hello World"}
 
@@ -15,7 +16,7 @@ def test_funcaoteste():
 
 def test_create_estudante():
     estudante_teste = Estudante(name="Fulano", curso="Curso 1", ativo=False)
-    assert estudante_teste == create_estudante()
+    assert estudante_teste == create_estudante(estudante_teste)
 
 
 def test_update_estudante_negativo():
